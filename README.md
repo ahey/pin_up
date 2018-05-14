@@ -62,14 +62,14 @@ See https://pin.net.au/docs/api/charges#search-charges for a full list of option
 
 ##### Create A Charge
     charge = {email: "email@example.com", description: "Description", amount: "400", currency: "AUD", ip_address: "127.0.0.1", customer_token: "cus_token"   }
-
+    
     Pin::Charges.create(charge)
 
 ##### Authorise A Charge (but don't charge it yet)
 Also known as a pre-auth, this will hold a charge to be captured by for up to 5 days
 
     charge = {email: "email@example.com", description: "Description", amount: "400", currency: "AUD", ip_address: "127.0.0.1", customer_token: "cus_token"  capture: false }
-
+    
     Pin::Charges.create(charge)
 
 ##### Capture an authorised charge
@@ -105,9 +105,9 @@ With Pagination:
 
 ##### Create A Customer
     Pin::Customer.create(email, hash_of_customer_details)
-
+    
     customer_details = {number: '5520000000000000', expiry_month: "12", expiry_year: "2014", cvc: "123", name: 'Roland Robot', address_line1: '123 fake street', address_city: 'Melbourne', address_postcode: '1234', address_state: 'Vic', address_country: 'Australia'}
-
+    
     Pin::Customer.create('email@example.com', customer_details)
 
 ##### Update A Customer
@@ -132,7 +132,7 @@ If passing a hash of details, it must be the full list of details of the credit 
 ##### Create A Customer Given a Card Token and Email
 
     card_details = {number: "5520000000000000", expiry_month: "12", expiry_year: "2018", cvc: "123", name: "Roland TestRobot", address_line1: "123 Fake Road", address_line2: "", address_city: "Melbourne", address_postcode: "1223", address_state: "Vic", address_country: "AU"}
-
+    
     card = Pin::Card.create(card_details)
     Pin::Customer.create('email@example.com',card['token'])
 
@@ -160,6 +160,13 @@ This method will raise an exception if attempting to remove the user's primary c
     card_token = 'card_token'
     Pin::Customer.delete_card(customer_token, card_token)
 
+##### Delete a customer and all of its cards
+
+```ruby
+customer_token = 'customer_token'
+Pin::Customer.delete(customer_token)
+```
+
 ## Refunds
 
 ##### Find A Refund
@@ -181,7 +188,7 @@ This will list all refunds for a particular charge (will return an empty hash if
 ##### Create A Card Without Pins Form
 
     card_details = {number: "5520000000000000", expiry_month: "12", expiry_year: "2018", cvc: "123", name: "Roland Robot", address_line1: "123 Fake Road", address_line2: "", address_city: "Melbourne", address_postcode: "1223", address_state: "Vic", address_country: "AU"}
-
+    
     Pin::Card.create(card_details)
 
 Will return a card_token that can be stored against a customer.
